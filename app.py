@@ -16,9 +16,9 @@ import utils
 
 
 def main() -> None:
-    # ------------------------------------------------------------------
+     
     # PAGE CONFIGURATION
-    # ------------------------------------------------------------------
+     
     st.set_page_config(
         page_title=config.APP_TITLE,
         page_icon=config.APP_ICON,
@@ -27,10 +27,10 @@ def main() -> None:
 
     st.title(f"{config.APP_ICON} {config.APP_TITLE}")
 
-    # ------------------------------------------------------------------
+     
     # FILE UPLOAD (sidebar uploader, persists via session_state so it
     # stays available on reruns and on the Report Tracker page too)
-    # ------------------------------------------------------------------
+     
     agreements_file = utils.render_agreements_uploader()
 
     if agreements_file is None:
@@ -40,9 +40,9 @@ def main() -> None:
         )
         st.stop()
 
-    # ------------------------------------------------------------------
+     
     # DATA LOADING
-    # ------------------------------------------------------------------
+     
     try:
         raw_df = utils.load_agreements(agreements_file)
     except ValueError as err:
@@ -60,9 +60,9 @@ def main() -> None:
     # Compute Days Remaining + Status for every record (single source of truth).
     enriched_df = utils.enrich_dataframe(raw_df)
 
-    # ------------------------------------------------------------------
+     
     # SIDEBAR FILTERS
-    # ------------------------------------------------------------------
+     
     search_text, status_filter, approval_month_filter = dashboard.render_sidebar_filters(
         enriched_df
     )
@@ -70,23 +70,23 @@ def main() -> None:
         enriched_df, search_text, status_filter, approval_month_filter
     )
 
-    # ------------------------------------------------------------------
+     
     # KPI CARDS (always reflect full dataset, not the filtered view)
-    # ------------------------------------------------------------------
+     
     dashboard.render_kpi_cards(enriched_df)
 
     st.markdown("---")
 
-    # ------------------------------------------------------------------
+     
     # VISUALIZATIONS (reflect full dataset for a stable overview)
-    # ------------------------------------------------------------------
+     
     dashboard.render_visualizations(enriched_df)
 
     st.markdown("---")
 
-    # ------------------------------------------------------------------
+     
     # DATA TABLE (reflects sidebar filters)
-    # ------------------------------------------------------------------
+     
     dashboard.render_agreements_table(filtered_df)
 
     st.markdown("---")

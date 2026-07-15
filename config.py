@@ -13,9 +13,9 @@ this same file instead of hard-coding values elsewhere.
 import os
 
 
-# ----------------------------------------------------------------------
+
 # EXCEL SHEET NAMES
-# ----------------------------------------------------------------------
+
 # Both workbooks now contain several sheets, so sheets are targeted by
 # NAME rather than position -- position was only safe when each workbook
 # had exactly the two sheets we cared about, in a known order.
@@ -23,9 +23,9 @@ import os
 AGREEMENTS_SHEET_NAME = "Master"          # in Master_Label_Dashboard.xlsx
 REPORTS_SHEET_NAME = "Reports Update"     # in Revenue_Summary_1.xlsx
 
-# ----------------------------------------------------------------------
+
 # EXPECTED EXCEL COLUMNS -- AGREEMENT MONITOR (Master sheet)
-# ----------------------------------------------------------------------
+
 
 COL_LABEL_NAME = "Label Name"
 COL_START_DATE = "Start Date"
@@ -53,16 +53,16 @@ RAW_AGREEMENTS_REQUIRED_COLUMNS = [COL_LABEL_NAME, COL_START_DATE, SOURCE_COL_EN
 # unchanged from before, so nothing downstream needs to change.
 REQUIRED_COLUMNS = [COL_LABEL_NAME, COL_START_DATE, COL_EXPIRY_DATE]
 
-# ----------------------------------------------------------------------
+
 # DERIVED COLUMN NAMES (added by the app after processing)
-# ----------------------------------------------------------------------
+
 
 COL_DAYS_REMAINING = "Days Remaining"
 COL_STATUS = "Status"
 
-# ----------------------------------------------------------------------
+
 # STATUS LABELS
-# ----------------------------------------------------------------------
+
 
 STATUS_ACTIVE = "Active"
 STATUS_EXPIRING_SOON = "Expiring Soon"
@@ -78,16 +78,16 @@ ALL_STATUSES = [
     STATUS_UNKNOWN
 ]
 
-# ----------------------------------------------------------------------
+
 # BUSINESS RULE THRESHOLDS
-# ----------------------------------------------------------------------
+
 
 # Number of days within which an agreement is considered "Expiring Soon"
 EXPIRING_SOON_THRESHOLD_DAYS = 30
 
-# ----------------------------------------------------------------------
+
 # COLOR CODING (used for status badges / table styling / charts)
-# ----------------------------------------------------------------------
+
 
 STATUS_COLORS = {
     STATUS_ACTIVE: "#28a745",         # Green
@@ -106,9 +106,9 @@ STATUS_TEXT_COLORS = {
     STATUS_UNKNOWN: "#ffffff",
 }
 
-# ----------------------------------------------------------------------
+
 # APP / UI CONFIGURATION
-# ----------------------------------------------------------------------
+
 
 APP_TITLE = "Content Operations Dashboard"
 APP_ICON = "📋"
@@ -118,16 +118,16 @@ PAGE_LAYOUT = "wide"
 STATUS_FILTER_OPTIONS = ["All"] + ALL_STATUSES
 
 
-# ========================================================================
+
 # REPORT TRACKER MODULE
-# ------------------------------------------------------------------------
+--
 # Added for the "Report Tracker" page. Kept in a clearly separated block
 # so the original Agreement Monitor configuration above is untouched.
-# ========================================================================
 
-# ----------------------------------------------------------------------
+
+
 # REPORTS UPDATE SHEET — EXPECTED COLUMNS
-# ----------------------------------------------------------------------
+
 
 COL_TV_STUDIOS = "TV Studios"          # Label Name equivalent on this sheet
 COL_PERIOD = "Period"
@@ -146,18 +146,18 @@ REPORT_REQUIRED_COLUMNS = [
     COL_SHARED_WITH_CP,
 ]
 
-# ----------------------------------------------------------------------
+
 # DERIVED COLUMN NAMES (added after processing)
-# ----------------------------------------------------------------------
+
 
 COL_REPORT_STATUS = "Report Status"
 
 # Agreement Status pulled in from the Agreements sheet, matched by label.
 COL_AGREEMENT_STATUS = "Agreement Status"
 
-# ----------------------------------------------------------------------
+
 # REPORT STATUS LABELS
-# ----------------------------------------------------------------------
+
 
 REPORT_STATUS_SHARED = "Shared"
 REPORT_STATUS_PENDING_TO_SHARE = "Pending to Share"
@@ -171,9 +171,9 @@ ALL_REPORT_STATUSES = [
 
 REPORT_STATUS_FILTER_OPTIONS = ["All"] + ALL_REPORT_STATUSES
 
-# ----------------------------------------------------------------------
+
 # REPORT STATUS COLOR CODING
-# ----------------------------------------------------------------------
+
 
 REPORT_STATUS_COLORS = {
     REPORT_STATUS_SHARED: "#28a745",           # Green
@@ -187,9 +187,9 @@ REPORT_STATUS_TEXT_COLORS = {
     REPORT_STATUS_NO_INFO_FOUND: "#ffffff",
 }
 
-# ----------------------------------------------------------------------
+
 # PAGE CONFIGURATION
-# ----------------------------------------------------------------------
+
 
 REPORT_TRACKER_TITLE = "Report Tracker"
 REPORT_TRACKER_ICON = "🗂️"

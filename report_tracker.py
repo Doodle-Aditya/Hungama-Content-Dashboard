@@ -58,9 +58,9 @@ def render_export_button(df: pd.DataFrame) -> None:
     )
 
     
-# ----------------------------------------------------------------------
+
 # SIDEBAR FILTERS
-# ----------------------------------------------------------------------
+
 
 def render_sidebar_filters(df: pd.DataFrame) -> tuple[str, str, str]:
     """
@@ -143,9 +143,9 @@ def apply_filters(
     return filtered
 
 
-# ----------------------------------------------------------------------
+
 # KPI CARDS
-# ----------------------------------------------------------------------
+
 
 def render_kpi_cards(df: pd.DataFrame) -> None:
     """
@@ -173,9 +173,9 @@ def render_kpi_cards(df: pd.DataFrame) -> None:
     col5.metric("Expired Agreements", int(expired_count))
 
 
-# ----------------------------------------------------------------------
+
 # VISUALIZATION
-# ----------------------------------------------------------------------
+
 
 def render_agreement_status_pie_chart(df: pd.DataFrame) -> None:
     """
@@ -208,9 +208,9 @@ def render_agreement_status_pie_chart(df: pd.DataFrame) -> None:
     st.plotly_chart(fig, use_container_width=True)
 
 
-# ----------------------------------------------------------------------
+
 # DATA TABLE
-# ----------------------------------------------------------------------
+
 
 def render_reports_table(df: pd.DataFrame) -> None:
     """

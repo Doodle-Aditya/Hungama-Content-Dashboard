@@ -22,9 +22,9 @@ import streamlit as st
 import io
 import config
 
-# ----------------------------------------------------------------------
+
 # FILE UPLOAD WIDGETS
-# ----------------------------------------------------------------------
+
 
 def render_agreements_uploader():
     """
@@ -73,9 +73,9 @@ def render_reports_uploader():
     return st.session_state.get("reports_file")
 
 
-# ----------------------------------------------------------------------
+
 # DATA LOADING
-# ----------------------------------------------------------------------
+
 
 def _read_excel_sheet(
     file_path: str,
@@ -182,9 +182,9 @@ def load_agreements(
     return df
 
 
-# ----------------------------------------------------------------------
+
 # STATUS / DAYS REMAINING COMPUTATION
-# ----------------------------------------------------------------------
+
 
 def compute_days_remaining(expiry_date, today: date = None) -> "int | None":
     """
@@ -277,9 +277,9 @@ def enrich_dataframe(df: pd.DataFrame, today: date = None) -> pd.DataFrame:
     return df
 
 
-# ----------------------------------------------------------------------
+
 # FORMATTING HELPERS
-# ----------------------------------------------------------------------
+
 
 def to_excel_bytes(df: pd.DataFrame, sheet_name: str = "Data") -> bytes:
     """
@@ -355,7 +355,7 @@ def colored_badge_html(text: str, bg_color: str, text_color: str = "#ffffff") ->
 
 # ========================================================================
 # REPORT TRACKER MODULE
-# ------------------------------------------------------------------------
+--
 # Reuses the Agreement Monitor's date/status logic above
 # (compute_days_remaining, compute_status, format_date,
 # colored_badge_html) instead of duplicating it.

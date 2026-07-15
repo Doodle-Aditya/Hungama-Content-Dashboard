@@ -24,9 +24,9 @@ import config
 import utils
 
 
-# ----------------------------------------------------------------------
+
 # SIDEBAR FILTERS
-# ----------------------------------------------------------------------
+
 
 def render_sidebar_filters(df: pd.DataFrame) -> tuple[str, str, str]:
     """
@@ -115,9 +115,9 @@ def apply_filters(
     return filtered
 
 
-# ----------------------------------------------------------------------
+
 # KPI CARDS (The cards which are showing the number.)
-# ----------------------------------------------------------------------
+
 
 def render_kpi_cards(df: pd.DataFrame) -> None:
     """
@@ -142,9 +142,9 @@ def render_kpi_cards(df: pd.DataFrame) -> None:
     col5.metric("Expiring Today", int(expiring_today_count))
 
 
-# ----------------------------------------------------------------------
+
 # VISUALIZATIONS (Pie chart and graph)
-# ----------------------------------------------------------------------
+
 
 def render_status_pie_chart(df: pd.DataFrame) -> None:
     """
@@ -271,9 +271,9 @@ def render_visualizations(df: pd.DataFrame) -> None:
         render_monthly_expiry_bar_chart(df)
 
 
-# ----------------------------------------------------------------------
+
 # DATA TABLE
-# ----------------------------------------------------------------------
+
 
 def render_agreements_table(df: pd.DataFrame) -> None:
     """
