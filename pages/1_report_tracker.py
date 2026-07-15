@@ -144,11 +144,6 @@ def main() -> None:
     # ------------------------------------------------------------------
     report_tracker.render_reports_table(filtered_df)
 
-    # ------------------------------------------------------------------
-    # DATA TABLE (reflects sidebar filters)
-    # ------------------------------------------------------------------
-    report_tracker.render_reports_table(filtered_df)
-
 
 if __name__ == "__main__":
     main()
