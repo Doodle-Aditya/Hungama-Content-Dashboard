@@ -1,144 +1,115 @@
-# Content Operations Dashboard
+# Content Operations Dashboard — User Guide
 
-An internal Streamlit dashboard for monitoring content partner / label
-agreements and their report-sharing status. Built for Legal, Finance, and
-MIS teams.
+This tool helps Legal, Finance, and MIS teams keep track of two things:
 
-Two pages, reading from one Excel workbook:
+1. **Which label agreements are active, expiring soon, or already expired**
+2. **Which labels' reports have been shared, and their approval status**
 
-- **Agreement Monitor** (`app.py`) — validity of each label's agreement
-  (Active / Expiring Soon / Expires Today / Expired).
-- **Report Tracker** (`pages/1_Report_Tracker.py`) — one row per label
-  (most recent entry), filterable by Agreement Status and Period.
+No installation or Excel formulas needed on your end — you just upload the
+latest files and the dashboard does the rest.
 
 ---
 
-## 1. Folder Structure
+## 1. What You'll Need
 
-```
-ContentOperationsDashboard/
-│
-├── app.py                     # Agreement Monitor — entry point
-├── dashboard.py                # Agreement Monitor — UI rendering
-├── report_tracker.py           # Report Tracker — UI rendering
-├── utils.py                     # Shared data logic (loading, dates, status, matching)
-├── config.py                     # Constants, thresholds, colors, file paths
-├── requirements.txt
-├── README.md
-│
-├── data/
-│   └── Agreements.xlsx           # Source workbook (Sheet 1 + Sheet 2)
-│
-└── pages/
-    └── 1_Report_Tracker.py       # Report Tracker — entry point (auto-registered by Streamlit)
-```
+Two Excel workbooks, both `.xlsx`:
 
-| File | Responsibility |
+| Workbook | Used for |
 |---|---|
-| `config.py` | Single source of truth for column names, status labels, colors, thresholds, paths. |
-| `utils.py` | Pure data logic — loading both sheets, date parsing, status computation, label matching, dedup. No UI code beyond `@st.cache_data`. |
-| `dashboard.py` | Agreement Monitor UI — KPIs, charts, filters, table. |
-| `report_tracker.py` | Report Tracker UI — KPIs, chart, filters, table. |
-| `app.py` / `pages/1_Report_Tracker.py` | Thin entry points. Load data, call rendering functions, handle errors. No business logic. |
+| **Master Label Dashboard** | Agreement dates, status, approval info |
+| **Revenue Summary** | Report sharing / period tracking |
+
+You don't need to prepare or clean these — just upload the latest version
+you have. The dashboard reads specific sheets and columns from each (see
+below); everything else in the file is ignored and won't cause errors.
+
+### Master Label Dashboard — what the dashboard looks for
+- A sheet named **`Master`**
+- Columns named exactly: **`Label Name`**, **`Start Date`**, **`End Date`**
+- Optional column **`Approval upto`** (a date) — if present, it's shown as
+  a friendly "Month Year" label (e.g. a cell showing `31-03-2025` becomes
+  **"March 2025"**)
+
+### Revenue Summary — what the dashboard looks for
+- A sheet named **`Reports Update`**
+- Columns named exactly: **`TV Studios`**, **`Period`**, **`Report Date`**,
+  **`Shared with CP`**
+
+If a required sheet or column is missing, the app will tell you exactly
+what's missing instead of crashing — just fix the file and re-upload.
 
 ---
 
-## 2. Excel Data Format
+## 2. How to Use It
 
-`data/Agreements.xlsx` has two sheets, read by position (order matters,
-not sheet name):
+1. Open the app.
+2. In the sidebar, you'll see upload boxes. Upload your **Master Label
+   Dashboard** file and (on the Report Tracker page) your **Revenue
+   Summary** file.
+3. The dashboard updates immediately — no further steps needed.
+4. Got a newer file later? Just upload it again in the same sidebar box —
+   it replaces the old one right away.
 
-**Sheet 1 — Agreements** (`AGREEMENTS_SHEET_NAME = 0`)
+**Note:** uploads only last for your current session. If you close the
+app or leave it open too long without using it, you'll need to upload the
+files again next time.
 
-| Column | Type |
+---
+
+## 3. Page 1 — Agreement Monitor
+
+Shows every label's agreement status, computed automatically from
+`Start Date` and `End Date`:
+
+| Status | Meaning |
 |---|---|
-| `Label Name` | Text |
-| `Start Date` | Date |
-| `Expiry Date` | Date |
+| 🟢 **Active** | More than 30 days remain |
+| 🟡 **Expiring Soon** | 30 days or fewer remain |
+| 🟠 **Expires Today** | Ends today |
+| 🔴 **Expired** | End date has already passed |
+| ⚪ **Unknown** | Dates missing or unreadable in the source file |
 
-**Sheet 2 — Reports Update** (`REPORTS_SHEET_NAME = 1`)
+**What's on the page:**
+- Summary cards at the top (total labels, active, expired, etc.)
+- A pie chart of status distribution and a bar chart of expiries by month
+- A searchable table of every label, with Approval Month shown last
 
-Required: `TV Studios`, `Period`, `Report Date`, `Shared with CP`.
-Other operational columns (`Approval to MIS`, `Approval from Finance`,
-revenue/invoice fields, etc.) may be present and are read if found, but
-aren't currently used by either page.
-
-A given label can appear multiple times on Sheet 2 (e.g. once per
-period). The Report Tracker page collapses this to **one row per label**,
-keeping whichever row appears **last in the sheet** for that label.
-
----
-
-## 3. Status Rules
-
-**Agreement Status** (computed on Sheet 1, reused everywhere by label
-lookup — never recalculated on Sheet 2):
-
-| Status | Rule |
-|---|---|
-| Expired | `Expiry Date < Today` |
-| Expires Today | `Expiry Date == Today` |
-| Expiring Soon | `0 < Days Remaining <= 30` |
-| Active | `Days Remaining > 30` |
-| Unknown | Missing/invalid date, or label not found on Sheet 1 |
-
-Label matching between sheets (`TV Studios` ↔ `Label Name`) is
-case-insensitive and whitespace-trimmed.
+**Filters (sidebar):**
+- **Search Label** — type any part of a label name
+- **Status Filter** — show only one status at a time (or all)
+- **Approval Month** — show only labels with a specific approval month
 
 ---
 
-## 4. Installation & Running
+## 4. Page 2 — Report Tracker
 
-```bash
-python -m venv venv
-source venv/bin/activate      # Windows: venv\Scripts\activate
+Shows **one row per label** — if a label appears many times in the
+Revenue Summary file (e.g. once per reporting period), only its most
+recent entry is shown, so the list doesn't get cluttered with duplicates.
 
-pip install -r requirements.txt
+Each row also shows that label's Agreement Status, pulled in automatically
+from the Master Label Dashboard file by matching label names (so upload
+both files for full information — if the Master Label Dashboard hasn't
+been uploaded yet, Agreement Status just shows as "Unknown").
 
-streamlit run app.py
-```
-
-Opens at `http://localhost:8501`. The Report Tracker page appears
-automatically in the sidebar (from `pages/`).
-
----
-
-## 5. Page Features
-
-**Agreement Monitor**
-- KPI cards, status pie chart, monthly expiry bar chart.
-- Searchable, color-coded table of all agreements.
-- Filters: label search, status.
-
-**Report Tracker**
-- One row per label (most recent Sheet 2 entry only).
-- KPI cards + pie chart by Agreement Status.
-- Table shows: Label (color-coded by Agreement Status), Period, Agreement
-  Status. `Report Date`, `Shared with CP`, and Report Status are not
-  shown on this page.
-- Filters: Agreement Status, Period.
+**Filters (sidebar):**
+- **Agreement Status** — Active / Expiring Soon / Expires Today / Expired / Unknown
+- **Period** — a specific reporting period from the Revenue Summary file
+- **Approval Month** — same as on the Agreement Monitor page
 
 ---
 
-## 6. Notes on Data Handling
+## 5. Troubleshooting
 
-- Sheet 1 dates parse cleanly via `pd.to_datetime(errors="coerce")`.
-- Sheet 2's date-like columns (`Report Date`, `Approval to MIS`, etc.) may
-  be stored as raw Excel serial numbers rather than real dates — not an
-  issue today since Report Tracker no longer displays or sorts by them,
-  but will need handling if those columns are used in a future module.
-- Both sheets are cached with `st.cache_data`; restart the app to pick up
-  changes to `Agreements.xlsx`.
-
----
-
-## 7. Future Extensibility (Not Yet Implemented)
-
-- 📊 Revenue Summary (unused Sheet 2 columns: Net Revenue, Payout,
-  Invoice fields, etc.)
-- ✅ Approval Tracking
-- 📧 Automated Email Notifications
-- 📤 Automatic Report Dispatch
-
-Pattern for adding a module: constants in `config.py` → logic in
-`utils.py` → rendering in a new `<module>.py` → entry point in `pages/`.
+- **"No data found" / missing column warning** — the uploaded file is
+  either the wrong workbook, or a sheet/column name doesn't match what's
+  listed in Section 1. Sheet and column names must match exactly
+  (including capitalization and spacing).
+- **A label shows "Unknown" status** — either its dates are missing/
+  invalid in the source file, or (on the Report Tracker page) its name
+  doesn't match a label in the Master Label Dashboard file closely enough
+  to be linked automatically.
+- **Approval Month shows "—"** — that label's `Approval upto` cell was
+  blank or not a real date in the source file.
+- **My upload disappeared** — sessions don't persist between visits;
+  re-upload both files whenever you return to the app.ki
