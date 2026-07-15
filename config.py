@@ -12,19 +12,6 @@ this same file instead of hard-coding values elsewhere.
 
 import os
 
-# ----------------------------------------------------------------------
-# PATHS
-# ----------------------------------------------------------------------
-
-# Base directory of the project (folder containing this file)
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
-# Data folder
-DATA_DIR = os.path.join(BASE_DIR, "data")
-
-# Two separate source workbooks (previously one workbook, two sheets).
-AGREEMENTS_EXCEL_FILE = os.path.join(DATA_DIR, "Master_Label_Dashboard.xlsx")
-REPORTS_EXCEL_FILE = os.path.join(DATA_DIR, "Revenue_Summary_1.xlsx")
 
 # ----------------------------------------------------------------------
 # EXCEL SHEET NAMES
