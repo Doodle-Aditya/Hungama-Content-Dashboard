@@ -126,6 +126,5 @@ exactly what's currently showing, after filters are applied.
 ## Credits
 
 Made by **Aditya Nishad** for **Hungama Digital Infotainment Pvt Ltd**.
-
 <br>[Github](https://github.com/doodle-aditya)
 <br>[E-mail](mailto:adityanishad98196@gmail.com)
