@@ -19,7 +19,7 @@ from datetime import datetime, date
 
 import pandas as pd
 import streamlit as st
-
+import io
 import config
 
 # ----------------------------------------------------------------------
@@ -281,6 +281,24 @@ def enrich_dataframe(df: pd.DataFrame, today: date = None) -> pd.DataFrame:
 # FORMATTING HELPERS
 # ----------------------------------------------------------------------
 
+def to_excel_bytes(df: pd.DataFrame, sheet_name: str = "Data") -> bytes:
+    """
+    Convert a DataFrame to raw .xlsx bytes, suitable for st.download_button.
+
+    Args:
+        df: DataFrame to export. Should contain plain, already-formatted
+            values (not HTML badges) so the exported file is clean.
+        sheet_name: Name of the sheet inside the exported workbook.
+
+    Returns:
+        Bytes of a valid .xlsx file.
+    """
+    buffer = io.BytesIO()
+    with pd.ExcelWriter(buffer, engine="openpyxl") as writer:
+        df.to_excel(writer, index=False, sheet_name=sheet_name)
+    return buffer.getvalue()
+
+    
 def format_date(value) -> str:
     """Format a date value for display, handling missing/invalid dates."""
     if pd.isna(value):

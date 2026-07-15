@@ -135,6 +135,16 @@ def main() -> None:
     st.markdown("---")
 
     # ------------------------------------------------------------------
+    # EXPORT (reflects sidebar filters -- same rows as the table below)
+    # ------------------------------------------------------------------
+    report_tracker.render_export_button(filtered_df)
+
+    # ------------------------------------------------------------------
+    # DATA TABLE (reflects sidebar filters)
+    # ------------------------------------------------------------------
+    report_tracker.render_reports_table(filtered_df)
+
+    # ------------------------------------------------------------------
     # DATA TABLE (reflects sidebar filters)
     # ------------------------------------------------------------------
     report_tracker.render_reports_table(filtered_df)

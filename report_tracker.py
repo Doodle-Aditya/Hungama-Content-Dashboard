@@ -30,6 +30,34 @@ import config
 import utils
 
 
+def render_export_button(df: pd.DataFrame) -> None:
+    """
+    Render a download button that exports the currently filtered reports
+    table as an .xlsx file. Values are already plain text (no HTML badges
+    at this stage), so no reformatting is needed before export.
+    """
+    if df.empty:
+        return
+
+    columns_to_export = [
+        config.COL_TV_STUDIOS,
+        config.COL_PERIOD,
+        config.COL_AGREEMENT_STATUS,
+        config.COL_APPROVAL_MONTH_DISPLAY,
+    ]
+    columns_to_export = [c for c in columns_to_export if c in df.columns]
+
+    excel_bytes = utils.to_excel_bytes(df[columns_to_export], sheet_name="Report Tracker")
+
+    st.download_button(
+        label="⬇️ Export filtered data (Excel)",
+        data=excel_bytes,
+        file_name=f"report_tracker_{pd.Timestamp.today().strftime('%Y-%m-%d')}.xlsx",
+        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        key="report_tracker_export_button",
+    )
+
+    
 # ----------------------------------------------------------------------
 # SIDEBAR FILTERS
 # ----------------------------------------------------------------------

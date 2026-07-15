@@ -223,6 +223,43 @@ def render_monthly_expiry_bar_chart(df: pd.DataFrame) -> None:
     )
     st.plotly_chart(fig, use_container_width=True)
 
+def render_export_button(df: pd.DataFrame) -> None:
+    """
+    Render a download button that exports the currently filtered
+    agreements table as an .xlsx file. Uses plain text values (not the
+    HTML badges used on screen) so the exported file opens cleanly in
+    Excel.
+    """
+    if df.empty:
+        return
+
+    export_df = df.copy()
+    export_df[config.COL_START_DATE] = export_df[config.COL_START_DATE].apply(utils.format_date)
+    export_df[config.COL_EXPIRY_DATE] = export_df[config.COL_EXPIRY_DATE].apply(utils.format_date)
+    export_df[config.COL_DAYS_REMAINING] = df[config.COL_DAYS_REMAINING].apply(
+        utils.format_days_remaining
+    )
+    # Status and Approval Month are already plain text values -- no reformatting needed.
+
+    columns_to_export = [
+        config.COL_LABEL_NAME,
+        config.COL_START_DATE,
+        config.COL_EXPIRY_DATE,
+        config.COL_DAYS_REMAINING,
+        config.COL_STATUS,
+        config.COL_APPROVAL_MONTH_DISPLAY,
+    ]
+    columns_to_export = [c for c in columns_to_export if c in export_df.columns]
+
+    excel_bytes = utils.to_excel_bytes(export_df[columns_to_export], sheet_name="Agreements")
+
+    st.download_button(
+        label="⬇️ Export filtered data (Excel)",
+        data=excel_bytes,
+        file_name=f"agreement_monitor_{pd.Timestamp.today().strftime('%Y-%m-%d')}.xlsx",
+        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        key="agreement_monitor_export_button",
+    )
 
 def render_visualizations(df: pd.DataFrame) -> None:
     """Render the pie chart and bar chart side by side."""
