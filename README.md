@@ -1,5 +1,7 @@
 # Content Operations Dashboard — User Guide
 
+🔗 **Live App:** [master-label-page.streamlit.app](https://master-label-page.streamlit.app/)
+
 This tool helps Legal, Finance, and MIS teams keep track of two things:
 
 1. **Which label agreements are active, expiring soon, or already expired**
@@ -42,7 +44,7 @@ what's missing instead of crashing — just fix the file and re-upload.
 
 ## 2. How to Use It
 
-1. Open the app.
+1. Open the [live app](https://master-label-page.streamlit.app/).
 2. In the sidebar, you'll see upload boxes. Upload your **Master Label
    Dashboard** file and (on the Report Tracker page) your **Revenue
    Summary** file.
@@ -73,6 +75,8 @@ Shows every label's agreement status, computed automatically from
 - Summary cards at the top (total labels, active, expired, etc.)
 - A pie chart of status distribution and a bar chart of expiries by month
 - A searchable table of every label, with Approval Month shown last
+- An **Export filtered data (Excel)** button that downloads exactly what's
+  currently showing in the table below it
 
 **Filters (sidebar):**
 - **Search Label** — type any part of a label name
@@ -91,6 +95,9 @@ Each row also shows that label's Agreement Status, pulled in automatically
 from the Master Label Dashboard file by matching label names (so upload
 both files for full information — if the Master Label Dashboard hasn't
 been uploaded yet, Agreement Status just shows as "Unknown").
+
+An **Export filtered data (Excel)** button above the table downloads
+exactly what's currently showing, after filters are applied.
 
 **Filters (sidebar):**
 - **Agreement Status** — Active / Expiring Soon / Expires Today / Expired / Unknown
@@ -112,4 +119,12 @@ been uploaded yet, Agreement Status just shows as "Unknown").
 - **Approval Month shows "—"** — that label's `Approval upto` cell was
   blank or not a real date in the source file.
 - **My upload disappeared** — sessions don't persist between visits;
-  re-upload both files whenever you return to the app.ki
+  re-upload both files whenever you return to the app.
+
+---
+
+## Credits
+
+Made by **Aditya Nishad** for **Hungama Digital Infotainment Pvt Ltd**.
+[Github](github.com/doodle-aditya)
+[E-mail](mailto:adityanishad98196@gmail.com)
