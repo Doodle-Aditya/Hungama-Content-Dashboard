@@ -12,10 +12,7 @@ this same file instead of hard-coding values elsewhere.
 
 import os
 
-
-
 # EXCEL SHEET NAMES
-
 # Both workbooks now contain several sheets, so sheets are targeted by
 # NAME rather than position -- position was only safe when each workbook
 # had exactly the two sheets we cared about, in a known order.
@@ -23,10 +20,7 @@ import os
 AGREEMENTS_SHEET_NAME = "Master"          # in Master_Label_Dashboard.xlsx
 REPORTS_SHEET_NAME = "Reports Update"     # in Revenue_Summary_1.xlsx
 
-
 # EXPECTED EXCEL COLUMNS -- AGREEMENT MONITOR (Master sheet)
-
-
 COL_LABEL_NAME = "Label Name"
 COL_START_DATE = "Start Date"
 COL_EXPIRY_DATE = "Expiry Date"   # canonical name used everywhere downstream
@@ -53,17 +47,11 @@ RAW_AGREEMENTS_REQUIRED_COLUMNS = [COL_LABEL_NAME, COL_START_DATE, SOURCE_COL_EN
 # unchanged from before, so nothing downstream needs to change.
 REQUIRED_COLUMNS = [COL_LABEL_NAME, COL_START_DATE, COL_EXPIRY_DATE]
 
-
 # DERIVED COLUMN NAMES (added by the app after processing)
-
-
 COL_DAYS_REMAINING = "Days Remaining"
 COL_STATUS = "Status"
 
-
 # STATUS LABELS
-
-
 STATUS_ACTIVE = "Active"
 STATUS_EXPIRING_SOON = "Expiring Soon"
 STATUS_EXPIRES_TODAY = "Expires Today"
@@ -78,17 +66,11 @@ ALL_STATUSES = [
     STATUS_UNKNOWN
 ]
 
-
 # BUSINESS RULE THRESHOLDS
-
-
 # Number of days within which an agreement is considered "Expiring Soon"
 EXPIRING_SOON_THRESHOLD_DAYS = 30
 
-
 # COLOR CODING (used for status badges / table styling / charts)
-
-
 STATUS_COLORS = {
     STATUS_ACTIVE: "#28a745",         # Green
     STATUS_EXPIRING_SOON: "#ffc107",  # Yellow
@@ -108,8 +90,6 @@ STATUS_TEXT_COLORS = {
 
 
 # APP / UI CONFIGURATION
-
-
 APP_TITLE = "Content Operations Dashboard"
 APP_ICON = "📋"
 PAGE_LAYOUT = "wide"
@@ -117,15 +97,9 @@ PAGE_LAYOUT = "wide"
 # Sidebar filter options (dropdown for status filter)
 STATUS_FILTER_OPTIONS = ["All"] + ALL_STATUSES
 
-
-
 # REPORT TRACKER MODULE
---
 # Added for the "Report Tracker" page. Kept in a clearly separated block
 # so the original Agreement Monitor configuration above is untouched.
-
-
-
 # REPORTS UPDATE SHEET — EXPECTED COLUMNS
 
 
@@ -146,19 +120,13 @@ REPORT_REQUIRED_COLUMNS = [
     COL_SHARED_WITH_CP,
 ]
 
-
 # DERIVED COLUMN NAMES (added after processing)
-
-
 COL_REPORT_STATUS = "Report Status"
 
 # Agreement Status pulled in from the Agreements sheet, matched by label.
 COL_AGREEMENT_STATUS = "Agreement Status"
 
-
 # REPORT STATUS LABELS
-
-
 REPORT_STATUS_SHARED = "Shared"
 REPORT_STATUS_PENDING_TO_SHARE = "Pending to Share"
 REPORT_STATUS_NO_INFO_FOUND = "No Info Found"
@@ -171,10 +139,7 @@ ALL_REPORT_STATUSES = [
 
 REPORT_STATUS_FILTER_OPTIONS = ["All"] + ALL_REPORT_STATUSES
 
-
 # REPORT STATUS COLOR CODING
-
-
 REPORT_STATUS_COLORS = {
     REPORT_STATUS_SHARED: "#28a745",           # Green
     REPORT_STATUS_PENDING_TO_SHARE: "#ffc107",  # Yellow
@@ -189,7 +154,5 @@ REPORT_STATUS_TEXT_COLORS = {
 
 
 # PAGE CONFIGURATION
-
-
 REPORT_TRACKER_TITLE = "Report Tracker"
 REPORT_TRACKER_ICON = "🗂️"

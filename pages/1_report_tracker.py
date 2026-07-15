@@ -1,8 +1,6 @@
 """
 pages/1_Report_Tracker.py
-
 Entry point for the "Report Tracker" page.
-
 Both source workbooks are now uploaded via sidebar uploaders instead of
 read from a fixed path:
 - Revenue Summary (Reports Update sheet) -- uploaded here.
@@ -16,7 +14,6 @@ utils.dedupe_latest_per_label), filterable by Agreement Status and Period.
 
 import pandas as pd
 import streamlit as st
-
 import config
 import report_tracker
 import utils
@@ -35,10 +32,9 @@ def main() -> None:
         "Status and Period — Legal · Finance · MIS"
     )
 
-    # ------------------------------------------------------------------
     # FILE UPLOADS (sidebar). Reports file is specific to this page;
     # Agreements file is shared with the Agreement Monitor page.
-    # ------------------------------------------------------------------
+
     reports_file = utils.render_reports_uploader()
     agreements_file = utils.render_agreements_uploader()
 
@@ -49,9 +45,7 @@ def main() -> None:
         )
         st.stop()
 
-    # ------------------------------------------------------------------
     # DATA LOADING — Reports
-    # ------------------------------------------------------------------
     try:
         raw_reports_df = utils.load_reports(reports_file)
     except ValueError as err:
@@ -71,9 +65,8 @@ def main() -> None:
     # "most recent" in the original Excel order.
     deduped_reports_df = utils.dedupe_latest_per_label(raw_reports_df)
 
-    # ------------------------------------------------------------------
     # DATA LOADING — Agreements (for Agreement Status lookup)
-    # ------------------------------------------------------------------
+
     if agreements_file is None:
         st.warning(
             "⚠️ Master Label Dashboard hasn't been uploaded yet. "
@@ -106,9 +99,8 @@ def main() -> None:
         reports_enriched_df, agreements_enriched_df
     )
 
-    # ------------------------------------------------------------------
     # SIDEBAR FILTERS
-    # ------------------------------------------------------------------
+
     agreement_status_filter, period_filter, approval_month_filter = (
         report_tracker.render_sidebar_filters(reports_enriched_df)
     )
@@ -119,31 +111,24 @@ def main() -> None:
         approval_month_filter,
     )
 
-    # ------------------------------------------------------------------
     # KPI CARDS (always reflect full deduped dataset, not the filtered view)
-    # ------------------------------------------------------------------
+
     report_tracker.render_kpi_cards(reports_enriched_df)
 
     st.markdown("---")
-
-    # ------------------------------------------------------------------
     # VISUALIZATION
-    # ------------------------------------------------------------------
+
     st.subheader("Agreement Status Distribution")
     report_tracker.render_agreement_status_pie_chart(reports_enriched_df)
 
     st.markdown("---")
 
-    # ------------------------------------------------------------------
     # EXPORT (reflects sidebar filters -- same rows as the table below)
-    # ------------------------------------------------------------------
     report_tracker.render_export_button(filtered_df)
 
-    # ------------------------------------------------------------------
     # DATA TABLE (reflects sidebar filters)
-    # ------------------------------------------------------------------
+    
     report_tracker.render_reports_table(filtered_df)
-
 
 if __name__ == "__main__":
     main()

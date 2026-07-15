@@ -1,15 +1,12 @@
 """
 dashboard.py
-
 All Streamlit UI rendering logic for the Content Operations Dashboard lives
 here, kept separate from app.py (entry point) and utils.py (pure data
 logic). This separation means:
-
 - app.py stays a thin orchestrator.
 - Future modules (Report Tracking, Approval Tracking, etc.) can add their
   own dashboard_<module>.py files following the same pattern, without
   touching this file.
-
 Each function renders one section of the page and takes the processed
 DataFrame (already enriched with Days Remaining / Status / Approval Upto
 (Month)) as input.
@@ -23,36 +20,28 @@ import streamlit as st
 import config
 import utils
 
-
-
 # SIDEBAR FILTERS
-
 
 def render_sidebar_filters(df: pd.DataFrame) -> tuple[str, str, str]:
     """
     Render sidebar filter controls.
-
     Args:
         df: Enriched agreements DataFrame (used to populate the Approval
             Month dropdown with actual values present in the data; the
             actual filtering happens in app.py).
-
     Returns:
         Tuple of (search_text, status_filter, approval_month_filter).
     """
     st.sidebar.header("🔍 Filters")
-
     search_text = st.sidebar.text_input(
         "Search Label",
         placeholder="Type a label name...",
     )
-
     status_filter = st.sidebar.selectbox(
         "Status Filter",
         options=config.STATUS_FILTER_OPTIONS,
         index=0,
     )
-
     approval_month_options = ["All"]
     if not df.empty and config.COL_APPROVAL_MONTH_DISPLAY in df.columns:
         approval_month_options += sorted(
@@ -68,12 +57,10 @@ def render_sidebar_filters(df: pd.DataFrame) -> tuple[str, str, str]:
         options=approval_month_options,
         index=0,
     )
-
     st.sidebar.markdown("---")
     st.sidebar.caption(
         f"Data as of **{pd.Timestamp.today().strftime('%d-%b-%Y')}**"
     )
-
     return search_text, status_filter, approval_month_filter
 
 
@@ -114,11 +101,7 @@ def apply_filters(
 
     return filtered
 
-
-
 # KPI CARDS (The cards which are showing the number.)
-
-
 def render_kpi_cards(df: pd.DataFrame) -> None:
     """
     Render the top-of-page KPI summary cards.
@@ -141,11 +124,7 @@ def render_kpi_cards(df: pd.DataFrame) -> None:
     col4.metric("Expiring in 30 Days", int(expiring_soon_count))
     col5.metric("Expiring Today", int(expiring_today_count))
 
-
-
 # VISUALIZATIONS (Pie chart and graph)
-
-
 def render_status_pie_chart(df: pd.DataFrame) -> None:
     """
     Render a pie chart showing the distribution of Active / Expired /
@@ -270,11 +249,7 @@ def render_visualizations(df: pd.DataFrame) -> None:
         st.subheader("Agreements Expiring by Month")
         render_monthly_expiry_bar_chart(df)
 
-
-
 # DATA TABLE
-
-
 def render_agreements_table(df: pd.DataFrame) -> None:
     """
     Render a searchable, color-coded table of agreements.
