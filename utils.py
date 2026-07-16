@@ -355,7 +355,7 @@ def colored_badge_html(text: str, bg_color: str, text_color: str = "#ffffff") ->
 
 # ========================================================================
 # REPORT TRACKER MODULE
---
+
 # Reuses the Agreement Monitor's date/status logic above
 # (compute_days_remaining, compute_status, format_date,
 # colored_badge_html) instead of duplicating it.
